@@ -1,10 +1,10 @@
-// Import all functions from put-item.js 
-const lambda = require('../../../src/handlers/put-item.js'); 
+// Import all functions from put-client.js
+const lambda = require('../../../src/handlers/put-client.js'); 
 // Import dynamodb from aws-sdk 
 const dynamodb = require('aws-sdk/clients/dynamodb'); 
  
-// This includes all tests for putItemHandler() 
-describe('Test putItemHandler', function () { 
+// This includes all tests for putClientHandler() 
+describe('Test putClientHandler', function () { 
     let putSpy; 
  
     // Test one-time setup and teardown, see more in https://jestjs.io/docs/en/setup-teardown 
@@ -19,9 +19,9 @@ describe('Test putItemHandler', function () {
         putSpy.mockRestore(); 
     }); 
  
-    // This test invokes putItemHandler() and compare the result  
+    // This test invokes putClientHandler() and compare the result  
     it('should add id to the table', async () => { 
-        const returnedItem = { id: 'id1', name: 'name1' }; 
+        const returnedItem = { id: '123', name: 'name1' }; 
  
         // Return the specified value whenever the spied put function is called 
         putSpy.mockReturnValue({ 
@@ -30,11 +30,11 @@ describe('Test putItemHandler', function () {
  
         const event = { 
             httpMethod: 'POST', 
-            body: '{"id": "id1","name": "name1"}' 
+            body: '{"id": "123","name": "name1"}' 
         }; 
      
-        // Invoke putItemHandler() 
-        const result = await lambda.putItemHandler(event); 
+        // Invoke putClientHandler() 
+        const result = await lambda.putClientHandler(event); 
         const expectedResult = { 
             statusCode: 200, 
             body: JSON.stringify(returnedItem) 
