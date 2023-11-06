@@ -35,9 +35,9 @@ jobs:
       - name: Install npm modules
         run: npm install
       - name: Run tests
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || (github.ref == 'refs/heads/main' && github.event_name == 'push')
         run: yarn test
       # sam deploy
       - name: Sam Deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: sam deploy --no-fail-on-empty-changeset --stack-name stack-name-${{ env.BRANCH_NAME }} --config-env ${{ env.BRANCH_NAME }} --parameter-overrides Environment=${{ env.BRANCH_NAME }}
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
